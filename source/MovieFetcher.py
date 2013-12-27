@@ -3,7 +3,7 @@
 #	Twitter and parses them out for us.
 #
 
-from keys import APIKeys
+from APIKeys import APIKeys
 import twitter
 
 def main():
