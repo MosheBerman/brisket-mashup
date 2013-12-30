@@ -32,6 +32,10 @@ def main():
 
 	print "Finding the movies that were being parodied by their respective Tweeps..."
 
+	if statusesThatParodyMovieNames == None:
+		print "Failed to gather tweets; can't proceed; aborting."
+		return
+
 	#	Loop through the tweets and try to 
 	#	find the movies that they match.
 	for status in statusesThatParodyMovieNames:

@@ -1,9 +1,10 @@
+
 #
 #	This class downloads the movies from 
 #	Twitter and parses them out for us.
 #
 
-from APIKeys import APIKeys					#	Abstract out aPI keys for privacy
+from keys import APIKeys					#	Abstract out aPI keys for privacy
 from TwitterUtils import TwitterUtils		#	Utility to manipulate Tweets
 import twitter 	#	Basis for twitter operations
 import time 	#	Used for counting time until rate limit ends
