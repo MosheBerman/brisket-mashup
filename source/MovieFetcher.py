@@ -41,47 +41,44 @@ def main():
 	#	First we need a list to put the tweets into.
 	#	We also need a max_id to use as a cursor.
 
-	allRelevantTweets = list()	#	lists are the default collection object in our API.
+	all_relevant_tweets = list()	#	lists are the default collection object in our API.
 
 	max_id = None		#	Used for pagination
 	current_search = 1  #	Used for logging	
 
 	#	Now, "prime the pump" by getting the original tweets
-	relevantTweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
+	relevant_tweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
 
 	#	So long as we have more tweets, keep going.
-	while (len(relevantTweets) > 0):
+	while (len(relevant_tweets) > 0):
 
 		#	Increment/log the current search...
 		current_search += 1
 		print "Search segment #" + str(current_search)
 
 		#	Put the previous results at the end of our list object
-		allRelevantTweets.extend(relevantTweets)
+		all_relevant_tweets.extend(relevant_tweets)
 
 		#	In Python, we can query a list from the end, using negative indices
-		max_id = int(relevantTweets[-1].id)
+		max_id = int(relevant_tweets[-1].id)
 
 		#	Now go fetch a new set of tweets.
-		relevantTweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
+		relevant_tweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
 
+		#	If we reloaded the last Tweet and have nothing new, let's terminate the loop.
+		if len(relevant_tweets) == 1 and relevant_tweets[-1].id == max_id:
+			relevant_tweets = list()
 
 	#	The next move is to filter retweets and duplicates.
 	#	This will make it simpler when we query IMDb.
-	allRelevantTweets = filterDupes(allRelevantTweets)
-
-	#	Print out all of the tweets
-	for tweet in allRelevantTweets:
-		print tweet.user + ": " + tweet.GetText() 
-
+	all_relevant_tweets = filterDupes(all_relevant_tweets)
 
 
 #	This function filters the duplicates out...
-def filterDupes(seq): 
-   # order preserving
-   noDupes = []
-   [noDupes.append(i) for i in seq if not noDupes.count(i)]
-   return noDupes
+def filterDupes(original_list): 
+  	filteredList = list()
+  	
+
 
 #	This function prints the dictionaries and their values:
 def printKeyValuePairs(dictionary):
