@@ -59,7 +59,6 @@ class TwitterFetcher():
 
 			#	Increment/log the current search...
 			current_search += 1
-			print "Loading the next segment of status results #" + str(current_search)
 
 			#	Put the previous results at the end of our list object
 			all_relevant_tweets.extend(relevant_tweets)
