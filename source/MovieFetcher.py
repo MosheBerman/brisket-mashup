@@ -43,18 +43,20 @@ def main():
 
 	all_relevant_tweets = list()	#	lists are the default collection object in our API.
 
-	max_id = None		#	Used for pagination
-	current_search = 1  #	Used for logging	
+	max_id = None											#	Used for pagination
+	current_search = 1 						 				#	Used for logging	
+	search_term = "#ifthemoviewerejewish"		#	The hashtag to search for
+
 
 	#	Now, "prime the pump" by getting the original tweets
-	relevant_tweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
+	relevant_tweets = api.GetSearch(search_term, None, None, max_id, None, 100, None, None, 'mixed', None)
 
 	#	So long as we have more tweets, keep going.
 	while (len(relevant_tweets) > 0):
 
 		#	Increment/log the current search...
 		current_search += 1
-		print "Search segment #" + str(current_search)
+		print "Loading the next segment of status results #" + str(current_search)
 
 		#	Put the previous results at the end of our list object
 		all_relevant_tweets.extend(relevant_tweets)
@@ -63,27 +65,55 @@ def main():
 		max_id = int(relevant_tweets[-1].id)
 
 		#	Now go fetch a new set of tweets.
-		relevant_tweets = api.GetSearch("#ifthemoviewerejewish", None, None, max_id, None, 100, None, None, 'mixed', None)
+		relevant_tweets = api.GetSearch(search_term, None, None, max_id, None, 100, None, None, 'mixed', None)
 
 		#	If we reloaded the last Tweet and have nothing new, let's terminate the loop.
 		if len(relevant_tweets) == 1 and relevant_tweets[-1].id == max_id:
 			relevant_tweets = list()
 
+	for status in all_relevant_tweets:
+		print status.text
+
 	#	The next move is to filter retweets and duplicates.
 	#	This will make it simpler when we query IMDb.
-	all_relevant_tweets = filterDupes(all_relevant_tweets)
+	all_relevant_tweets = FilterDupes(all_relevant_tweets)
+
+	#	Now we remove any tweets with URLs in them. Odds are
+	#	we don't want them.
+	all_relevant_tweets = FilterTweetsContainingURLS(all_relevant_tweets)
 
 
 #	This function filters the duplicates out...
-def filterDupes(original_list): 
-  	filteredList = list()
-  	
+def FilterDupes(original_list): 
 
+	#	This is the list we return with retweets filtered out.
+  	unique_list = list()
 
-#	This function prints the dictionaries and their values:
-def printKeyValuePairs(dictionary):
-	for key in dictionary:
-		print key
+  	#	The texts that we want.
+  	list_of_status_texts_seen = list()
+
+  	#	For each status message, let's check the text agains seen texts.
+  	#	If we've seen it, or it contains "RT", "via", "retweet", throw it away.
+  	#	Otherwise, add the text to the seen texts list and keep the status.
+
+  	for status in original_list:
+  		status_text = status.text
+  		
+  		 #	Bypass retweets
+  		if "RT" in status_text or "retweet" in status_text or "via" in status_text:
+  			continue
+
+  		#	Bypass duplicates that were independently thought of
+  		if status_text in list_of_status_texts_seen:
+  			#	TODO: Find a way to attach the second tweeter to the original status?
+  			continue
+
+  		#	Otherwise, we have a decent chance of a single tweet.
+  		unique_list.append(status)
+
+  	#	Don't forget to return!
+  	return unique_list
+
 
 
 
