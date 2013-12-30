@@ -3,7 +3,7 @@
 #	Twitter and parses them out for us.
 #
 
-from keys import APIKeys
+from APIKeys import APIKeys
 import twitter
 import time
 
@@ -45,8 +45,8 @@ def main():
 
 	max_id = None											#	Used for pagination
 	current_search = 1 						 				#	Used for logging	
-	search_term = "#ifthemoviewerejewish"		#	The hashtag to search for
-
+	search_term = "#ifthemoviewerejewish"					#	The hashtag to search for
+	desired_max_length = 6									#	The maximum number of words after removing hashtags
 
 	#	Now, "prime the pump" by getting the original tweets
 	relevant_tweets = api.GetSearch(search_term, None, None, max_id, None, 100, None, None, 'mixed', None)
@@ -71,9 +71,6 @@ def main():
 		if len(relevant_tweets) == 1 and relevant_tweets[-1].id == max_id:
 			relevant_tweets = list()
 
-	for status in all_relevant_tweets:
-		print status.text
-
 	#	The next move is to filter retweets and duplicates.
 	#	This will make it simpler when we query IMDb.
 	all_relevant_tweets = FilterDupes(all_relevant_tweets)
@@ -81,6 +78,10 @@ def main():
 	#	Now we remove any tweets with URLs in them. Odds are
 	#	we don't want them.
 	all_relevant_tweets = FilterTweetsContainingURLS(all_relevant_tweets)
+
+	#	Remove hashtags from tweets 
+	all_relevant_tweets = TweetsShorterThanMaximumLength(all_relevant_tweets, desired_max_length)
+
 
 
 #	This function filters the duplicates out...
@@ -115,7 +116,65 @@ def FilterDupes(original_list):
   	return unique_list
 
 
+#	This function filters out tweets containing URLs
+def FilterTweetsContainingURLS(original_list):
 
+	#	The list of filtered URLs
+	linkless_statuses = list()
+
+	for status in original_list:
+		if len(status.urls) == 0:
+			linkless_statuses.append(status)
+
+	return linkless_statuses
+
+
+#	Filters out all tweets that are longer than 
+#	The defined length, not including hashtags
+def TweetsShorterThanMaximumLength(original_list, length):
+
+	short_list = list()
+
+	for status in original_list:
+		#	Remove hashtags and then count the length	
+		status_text = StatusTextWithoutHashtagsAndMentions(status)
+
+		#	If the movie name is less than or equal to
+		#	our length, then include it.
+		if(len(status_text.split()) <= length):	
+			short_list.append(status)
+
+	return short_list
+
+#	This function gives a sterilized version of the status.
+def StatusTextWithoutHashtagsAndMentions(status):
+
+	status_text = status.text
+
+	#	Remove hashtag marks
+	status_text.replace("#", "")
+
+	#	Remove hashtags
+	for hashtag in status.hashtags:
+		status_text.replace(hashtag.text, "")
+
+	#	Remove mention symbols
+	status_text.replace("@", "")
+
+	#	Remove screen names
+	for mention in status.user_mentions:
+		status_text.replace(mention.screen_name, "")
+
+	return status_text
+
+#	This function print out the texts of statues messages
+#	in a supplied list and also prints the length of the list.
+def PrintList(list):
+
+	print "\n\n------------\nPrinting list of " + str(len(list)) + " statuses.\n------------\n\n"
+
+	for status in list:
+		print "------------\n" + status.text + "\n------------\n"
 
 # This kicks off the program
 main()
