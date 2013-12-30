@@ -7,8 +7,6 @@ from APIKeys import APIKeys					#	Abstract out aPI keys for privacy
 from TwitterUtils import TwitterUtils		#	Utility to manipulate Tweets
 import twitter 	#	Basis for twitter operations
 import time 	#	Used for counting time until rate limit ends
-import urllib2	#	Web requests
-import ast 		#	Assists with converting strings to dictionaries	
 
 class TwitterFetcher():
 
