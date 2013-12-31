@@ -7,7 +7,7 @@ Configuring Brisket
 ---
 You're going to have to add some Twitter API keys to the APIKeys class. This lets Brisket pull tweets without too much trouble. Also, check that TwitterFetcher.py reference `APIKeys` and not a file called `keys`. For those who prefer lists:
 
-1. Open up APIKeys.py and add your Twitter keys and tokens.
+1. Open up APIKeys.py and add your Twitter keys and tokens. (More on this in the next section.)
 2. Open TwitterFetcher.py and check look for a line that looks like this:
 
     `from keys import APIKeys`
@@ -19,6 +19,10 @@ You're going to have to add some Twitter API keys to the APIKeys class. This let
     If the second line is already present and the first is not, you can disregard this step. 
     
 You're ready to go!
+
+Twitter API Keys:
+---
+Go to [dev.twitter.com/apps](https://dev.twitter.com/apps) and create a new application. You'll use the two keys at the top of the page *as well as the ones that you'll generate by scrolling to the bottom and pushing the button*.
 
 Running Brisket
 ---
