@@ -1,4 +1,3 @@
-
 #
 #	This class downloads the movies from 
 #	Twitter and parses them out for us.
@@ -8,6 +7,7 @@ from keys import APIKeys					#	Abstract out aPI keys for privacy
 from TwitterUtils import TwitterUtils		#	Utility to manipulate Tweets
 import twitter 	#	Basis for twitter operations
 import time 	#	Used for counting time until rate limit ends
+import gc
 
 class TwitterFetcher():
 
@@ -55,6 +55,8 @@ class TwitterFetcher():
 		#	Now, "prime the pump" by getting the original tweets
 		relevant_tweets = api.GetSearch(search_term, None, None, max_id, None, 100, None, None, 'mixed', None)
 
+		gc.disable()
+
 		#	So long as we have more tweets, keep going.
 		while (len(relevant_tweets) > 0):
 
@@ -74,21 +76,77 @@ class TwitterFetcher():
 			if len(relevant_tweets) == 1 and relevant_tweets[-1].id == max_id:
 				relevant_tweets = list()
 
+		gc.enable()
+
+		print "Fetched " + str(len(all_relevant_tweets)) + " tweets containing the hashtag #ifthemoviewerejewish. Filtering... "
+
 		#	The next move is to filter retweets and duplicates.
 		#	This will make it simpler when we query IMDb.
-		all_relevant_tweets = self.FilterDupes(all_relevant_tweets)
+		#all_relevant_tweets = self.FilterDupes(all_relevant_tweets)
 
 		#	Now we remove any tweets with URLs in them. Odds are
 		#	we don't want them.
-		all_relevant_tweets = self.FilterTweetsContainingURLS(all_relevant_tweets)
+		#all_relevant_tweets = self.FilterTweetsContainingURLS(all_relevant_tweets)
 
 		#	Remove hashtags and users from tweets, then count words.
 		#	Statuses that are longer than our max length after discarding
 		#	hashtag and mention metadata are filtered out.
-		all_relevant_tweets = self.TweetsShorterThanMaximumLength(all_relevant_tweets, desired_max_length)
+		#all_relevant_tweets = self.TweetsShorterThanMaximumLength(all_relevant_tweets, desired_max_length)
+
+		all_relevant_tweets = self.EfficientlyFilteredTweets(all_relevant_tweets, desired_max_length)
+
+		print "After filtering, " + str(len(all_relevant_tweets)) + " remain."
 
 		#	Finally return all the relevant tweets
 		return all_relevant_tweets
+
+	#	This function combines the filters in the three methods that follow it into a single loop for performance
+	def EfficientlyFilteredTweets(self, original_list, max_length):
+		#	This is the list we return with retweets filtered out.
+	  	unique_list = list()
+
+	  	#	The texts that we want.
+	  	list_of_status_texts_seen = list()
+
+
+	  	manipulator = TwitterUtils()
+
+	  	#	For each status message, let's check the text agains seen texts.
+	  	#	If we've seen it, or it contains "RT", "via", "retweet", throw it away.
+	  	#	Otherwise, add the text to the seen texts list and keep the status.
+
+	  	for status in original_list:
+	  		status_text = status.text
+	  		
+	  		 #	Bypass retweets
+	  		if "RT" in status_text or "retweet" in status_text or "via" in status_text:
+	  			continue
+
+	  		#	Bypass duplicates that were independently thought of
+	  		if status_text in list_of_status_texts_seen:
+	  			#	TODO: Find a way to attach the second tweeter to the original status?
+	  			continue
+
+	  		#	Filter URLS
+	  		if len(status.urls) > 0:
+				continue
+
+			if "http://" in status.text:
+				continue
+
+			#	Remove hashtags and then count the length	
+			status_text = manipulator.StatusTextWithoutHashtagsAndMentions(status)
+
+			#	If the movie name is less than or equal to
+			#	our length, then include it.
+			if(len(status_text.split()) > max_length):	
+				continue
+
+	  		#	Otherwise, we have a decent chance of a clean status.
+	  		unique_list.append(status)
+
+	  	#	Don't forget to return!
+	  	return unique_list
 
 	#	This function filters the duplicates out...
 	def FilterDupes(self, original_list): 
@@ -115,11 +173,9 @@ class TwitterFetcher():
 	  			#	TODO: Find a way to attach the second tweeter to the original status?
 	  			continue
 
-	  		#	Otherwise, we have a decent chance of a single tweet.
-	  		unique_list.append(status)
-
 	  	#	Don't forget to return!
 	  	return unique_list
+
 
 
 	#	This function filters out tweets containing URLs

@@ -1,3 +1,4 @@
+
 #
 #	This class represents a collection of status
 #	messages that paroday or reference a movie.
@@ -8,6 +9,6 @@
 
 class StatusCollection():
 
-	def __init__(self, movie, statuses):
-		self.movie = movie
+	def __init__(self, movies, statuses):
+		self.movies = movies
 		self.statuses = statuses

@@ -6,6 +6,11 @@ from TwitterFetcher import TwitterFetcher
 from TwitterUtils import TwitterUtils
 from IMDbSearch import IMDbSearch
 from StatusCollection import StatusCollection
+from HTMLGenerator import HTMLGenerator
+
+import os
+import gc
+import codecs
 
 def main():
 
@@ -13,7 +18,7 @@ def main():
 
 	#	This is where our results will live.
 	#	We can use this for rendering a display
-	finalPairings = dict()
+	finalPairings = list()
 
 	#	An object that fetches status message from Twitter
 	twitter = TwitterFetcher()
@@ -23,6 +28,9 @@ def main():
 
 	#	The Twitter Utils 
 	utils = TwitterUtils()
+
+	#	The HTML Generator 
+	html = HTMLGenerator()
 
 	print "Finding twitter statuses that contain #IfTheMovieWereJewish..."
 
@@ -36,6 +44,11 @@ def main():
 		print "Failed to gather tweets; can't proceed; aborting."
 		return
 
+
+	print "Pairing tweets with movies..."
+
+	gc.disable()
+
 	#	Loop through the tweets and try to 
 	#	find the movies that they match.
 	for status in statusesThatParodyMovieNames:
@@ -45,33 +58,34 @@ def main():
 
 		relevant_movies = imdb.SearchTitle(status_text)
 
-		if(relevant_movies != None and len(relevant_movies) > 0):
-			best_matching_movie = relevant_movies[0]
-			movie_id = best_matching_movie.id
+		pairing = StatusCollection(relevant_movies, [status])
 
-			#	Using the movie ID as a key, if the movie  
-			#	was never paired before, use its movie_id
-			#	as the key for the pairing.
-			if not movie_id in finalPairings:
-				 pairing = StatusCollection(best_matching_movie, [status])
-				 finalPairings[movie_id] = pairing
+		finalPairings.append(pairing)
 
-			#	Otherise, just key in and add the status
-			else:
-				finalPairings[movie_id].statuses.append(status)
+	gc.enable()
+
+	#
+	#	Print out the results
+	#
+
+	print "Rendering webpage with results..."
+	webpage = html.RenderPairings(finalPairings)
+
+	if type(webpage) == unicode:
+		webpage.encode("utf_8", 'ignore')
 
 
-	print "Printing results..."
+	#
+	#	Save them into a webpage
+	#
+	print "Saving the webpage..."
 
-	#	Print the results
-	for key in finalPairings:
+	path = os.path.join(os.getcwd(), "jewish-movies.html")
 
-		pairing = finalPairings[key]
 
-		print "-----"
-		print "Movie: " + pairing.movie.title 
-		print "Tweets: "
-		for status in pairing.statuses:
-			print "\t" + status.text
+	with open(path, "w") as text_file:
+		text_file.write(webpage)
+
+	print "Done!"
 
 main()

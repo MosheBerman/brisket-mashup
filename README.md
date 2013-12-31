@@ -24,3 +24,14 @@ Running Brisket
 ---
 To run brisket, simply run `python Main.py` in your terminal. Brisket will log out some steps as it runs. Bear in mind that we're making many web requests, so this may take some time, depending on your internet connection.
 
+Live Demo:
+---
+You can see a live demo at http://mosheberman.com/brisket/index.html
+
+License
+---
+You can do anything you want as long you obey these three rules:
+ 
+1. Don't take anything here without crediting Moshe Berman and Charles Carr. 
+2. Don't sell this or use it to make money in any way. (If you do, We'll be expecting renumeration.)
+3. Don't use this to violate any laws or license agreements with companies. 
