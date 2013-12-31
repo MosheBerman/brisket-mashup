@@ -3,6 +3,10 @@ Brisket
 
 Brisket is a neat little tool for tracking those stupid #IfTheMovieWereJewishTweets and linking them to possible related movies on IMDb.
 
+Dependencies:
+---
+You'll need Python 2.7 for Brisket to run. For Twitter interations, Brisket uses a library called [python-twitter](https://code.google.com/p/python-twitter/). Install it first.
+
 Configuring Brisket
 ---
 You're going to have to add some Twitter API keys to the APIKeys class. This lets Brisket pull tweets without too much trouble. Also, check that TwitterFetcher.py reference `APIKeys` and not a file called `keys`. For those who prefer lists:
