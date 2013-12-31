@@ -24,9 +24,21 @@ Twitter API Keys:
 ---
 Go to [dev.twitter.com/apps](https://dev.twitter.com/apps) and create a new application. You'll use the two keys at the top of the page *as well as the ones that you'll generate by scrolling to the bottom and pushing the button*.
 
+The four keys you're looking for are:
+
+1. Consumer key
+2. Consumer Secret
+3. Access token
+4. Access token secret
+
+You'll find all of these in the details tab of your new application. 
+
+
 Running Brisket
 ---
-To run brisket, simply run `python Main.py` in your terminal. Brisket will log out some steps as it runs. Bear in mind that we're making many web requests, so this may take some time, depending on your internet connection.
+To run brisket, simply run `python Main.py` in your terminal. Brisket will log out some steps as it runs. Bear in mind that we're making many web requests, so this may take some time, depending on your internet connection. 
+
+On unixes, run as sudo so that Brisket can save the results.
 
 Live Demo:
 ---
