@@ -5,7 +5,7 @@ Brisket is a neat little tool for tracking those stupid #IfTheMovieWereJewishTwe
 
 Dependencies:
 ---
-You'll need Python 2.7 for Brisket to run. For Twitter interations, Brisket uses a library called [python-twitter](https://code.google.com/p/python-twitter/). Install it first.
+You'll need Python 2.7 for Brisket to run. For Twitter interactions, Brisket uses a library called [python-twitter](https://code.google.com/p/python-twitter/). Install it first.
 
 Configuring Brisket
 ---
@@ -42,11 +42,7 @@ Running Brisket
 ---
 To run brisket, simply run `python Main.py` in your terminal. Brisket will log out some steps as it runs. Bear in mind that we're making many web requests, so this may take some time, depending on your internet connection. 
 
-On unixes, run as sudo so that Brisket can save the results.
-
-Live Demo:
----
-You can see a live demo at http://mosheberman.com/brisket/index.html
+Note: On unixes, be sure to run as sudo so that Brisket can save the results.
 
 License
 ---
