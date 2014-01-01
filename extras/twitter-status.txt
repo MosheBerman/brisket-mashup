@@ -1,0 +1,392 @@
+Help on class Status in twitter:
+
+twitter.Status = class Status(__builtin__.object)
+ |  A class representing the Status structure used by the twitter API.
+ |  
+ |  The Status structure exposes the following properties:
+ |  
+ |    status.contributors
+ |    status.coordinates
+ |    status.created_at
+ |    status.created_at_in_seconds # read only
+ |    status.favorited
+ |    status.favorite_count
+ |    status.geo
+ |    status.id    
+ |    status.in_reply_to_screen_name
+ |    status.in_reply_to_user_id
+ |    status.in_reply_to_status_id
+ |    status.lang
+ |    status.place
+ |    status.retweet_count
+ |    status.relative_created_at # read only
+ |    status.source
+ |    status.text
+ |    status.truncated
+ |    status.location
+ |    status.user
+ |    status.urls
+ |    status.user_mentions
+ |    status.hashtags
+ |  
+ |  Methods defined here:
+ |  
+ |  AsDict(self)
+ |      A dict representation of this twitter.Status instance.
+ |      
+ |      The return value uses the same key names as the JSON representation.
+ |      
+ |      Return:
+ |        A dict representing this twitter.Status instance
+ |  
+ |  AsJsonString(self)
+ |      A JSON string representation of this twitter.Status instance.
+ |      
+ |      Returns:
+ |        A JSON string representation of this twitter.Status instance
+ |  
+ |  GetContributors(self)
+ |  
+ |  GetCoordinates(self)
+ |  
+ |  GetCreatedAt(self)
+ |      Get the time this status message was posted.
+ |      
+ |      Returns:
+ |        The time this status message was posted
+ |  
+ |  GetCreatedAtInSeconds(self)
+ |      Get the time this status message was posted, in seconds since the epoch.
+ |      
+ |      Returns:
+ |        The time this status message was posted, in seconds since the epoch.
+ |  
+ |  GetCurrent_user_retweet(self)
+ |  
+ |  GetFavoriteCount(self)
+ |      Get the favorite count of this status message.
+ |      
+ |      Returns:
+ |        number of times this status message has been favorited
+ |  
+ |  GetFavorited(self)
+ |      Get the favorited setting of this status message.
+ |      
+ |      Returns:
+ |        True if this status message is favorited; False otherwise
+ |  
+ |  GetGeo(self)
+ |  
+ |  GetId(self)
+ |      Get the unique id of this status message.
+ |      
+ |      Returns:
+ |        The unique id of this status message
+ |  
+ |  GetInReplyToScreenName(self)
+ |  
+ |  GetInReplyToStatusId(self)
+ |  
+ |  GetInReplyToUserId(self)
+ |  
+ |  GetLang(self)
+ |      Get the machine-detected language of this status message 
+ |      
+ |      Returns:
+ |        The machine-detected language  code of this status message.
+ |  
+ |  GetLocation(self)
+ |      Get the geolocation associated with this status message
+ |      
+ |      Returns:
+ |        The geolocation string of this status message.
+ |  
+ |  GetNow(self)
+ |      Get the wallclock time for this status message.
+ |      
+ |      Used to calculate relative_created_at.  Defaults to the time
+ |      the object was instantiated.
+ |      
+ |      Returns:
+ |        Whatever the status instance believes the current time to be,
+ |        in seconds since the epoch.
+ |  
+ |  GetPlace(self)
+ |  
+ |  GetPossibly_sensitive(self)
+ |  
+ |  GetRelativeCreatedAt(self)
+ |      Get a human readable string representing the posting time
+ |      
+ |      Returns:
+ |        A human readable string representing the posting time
+ |  
+ |  GetRetweetCount(self)
+ |  
+ |  GetRetweeted(self)
+ |  
+ |  GetRetweeted_status(self)
+ |  
+ |  GetScopes(self)
+ |  
+ |  GetSource(self)
+ |  
+ |  GetText(self)
+ |      Get the text of this status message.
+ |      
+ |      Returns:
+ |        The text of this status message.
+ |  
+ |  GetTruncated(self)
+ |  
+ |  GetUser(self)
+ |      Get a twitter.User representing the entity posting this status message.
+ |      
+ |      Returns:
+ |        A twitter.User representing the entity posting this status message
+ |  
+ |  GetWithheld_copyright(self)
+ |  
+ |  GetWithheld_in_countries(self)
+ |  
+ |  GetWithheld_scope(self)
+ |  
+ |  SetContributors(self, contributors)
+ |  
+ |  SetCoordinates(self, coordinates)
+ |  
+ |  SetCreatedAt(self, created_at)
+ |      Set the time this status message was posted.
+ |      
+ |      Args:
+ |        created_at:
+ |          The time this status message was created
+ |  
+ |  SetCurrent_user_retweet(self, current_user_retweet)
+ |  
+ |  SetFavoriteCount(self, favorite_count)
+ |      Set the favorited state of this status message.
+ |      
+ |      Args:
+ |        favorite_count:
+ |          int number of favorites for this status message
+ |  
+ |  SetFavorited(self, favorited)
+ |      Set the favorited state of this status message.
+ |      
+ |      Args:
+ |        favorited:
+ |          boolean True/False favorited state of this status message
+ |  
+ |  SetGeo(self, geo)
+ |  
+ |  SetId(self, id)
+ |      Set the unique id of this status message.
+ |      
+ |      Args:
+ |        id:
+ |          The unique id of this status message
+ |  
+ |  SetInReplyToScreenName(self, in_reply_to_screen_name)
+ |  
+ |  SetInReplyToStatusId(self, in_reply_to_status_id)
+ |  
+ |  SetInReplyToUserId(self, in_reply_to_user_id)
+ |  
+ |  SetLocation(self, location)
+ |      Set the geolocation associated with this status message
+ |      
+ |      Args:
+ |        location:
+ |          The geolocation string of this status message
+ |  
+ |  SetNow(self, now)
+ |      Set the wallclock time for this status message.
+ |      
+ |      Used to calculate relative_created_at.  Defaults to the time
+ |      the object was instantiated.
+ |      
+ |      Args:
+ |        now:
+ |          The wallclock time for this instance.
+ |  
+ |  SetPlace(self, place)
+ |  
+ |  SetPossibly_sensitive(self, possibly_sensitive)
+ |  
+ |  SetRetweetCount(self, retweet_count)
+ |  
+ |  SetRetweeted(self, retweeted)
+ |  
+ |  SetRetweeted_status(self, retweeted_status)
+ |  
+ |  SetScopes(self, scopes)
+ |  
+ |  SetSource(self, source)
+ |  
+ |  SetText(self, text)
+ |      Set the text of this status message.
+ |      
+ |      Args:
+ |        text:
+ |          The text of this status message
+ |  
+ |  SetTruncated(self, truncated)
+ |  
+ |  SetUser(self, user)
+ |      Set a twitter.User representing the entity posting this status message.
+ |      
+ |      Args:
+ |        user:
+ |          A twitter.User representing the entity posting this status message
+ |  
+ |  SetWithheld_copyright(self, withheld_copyright)
+ |  
+ |  SetWithheld_in_countries(self, withheld_in_countries)
+ |  
+ |  SetWithheld_scope(self, withheld_scope)
+ |  
+ |  __eq__(self, other)
+ |  
+ |  __init__(self, **kwargs)
+ |      An object to hold a Twitter status message.
+ |      
+ |      This class is normally instantiated by the twitter.Api class and
+ |      returned in a sequence.
+ |      
+ |      Note: Dates are posted in the form "Sat Jan 27 04:17:38 +0000 2007"
+ |      
+ |      Args:
+ |        created_at:
+ |          The time this status message was posted. [Optional]
+ |        favorited:
+ |          Whether this is a favorite of the authenticated user. [Optional]
+ |        favorite_count:
+ |          Number of times this status message has been favorited. [Optional]
+ |        id:
+ |          The unique id of this status message. [Optional]
+ |        text:
+ |          The text of this status message. [Optional]
+ |        location:
+ |          the geolocation string associated with this message. [Optional]
+ |        relative_created_at:
+ |          A human readable string representing the posting time. [Optional]
+ |        user:
+ |          A twitter.User instance representing the person posting the
+ |          message. [Optional]
+ |        now:
+ |          The current time, if the client chooses to set it.
+ |          Defaults to the wall clock time. [Optional]
+ |        urls:
+ |        user_mentions:
+ |        hashtags:
+ |        geo:
+ |        place:
+ |        coordinates:
+ |        contributors:
+ |        retweeted:
+ |        retweeted_status:
+ |        current_user_retweet:
+ |        retweet_count:
+ |        possibly_sensitive:
+ |        scopes:
+ |        withheld_copyright:
+ |        withheld_in_countries:
+ |        withheld_scope:
+ |  
+ |  __ne__(self, other)
+ |  
+ |  __str__(self)
+ |      A string representation of this twitter.Status instance.
+ |      
+ |      The return value is the same as the JSON string representation.
+ |      
+ |      Returns:
+ |        A string representation of this twitter.Status instance.
+ |  
+ |  ----------------------------------------------------------------------
+ |  Static methods defined here:
+ |  
+ |  NewFromJsonDict(data)
+ |      Create a new instance based on a JSON dict.
+ |      
+ |      Args:
+ |        data: A JSON dict, as converted from the JSON in the twitter API
+ |      Returns:
+ |        A twitter.Status instance
+ |  
+ |  ----------------------------------------------------------------------
+ |  Data descriptors defined here:
+ |  
+ |  __dict__
+ |      dictionary for instance variables (if defined)
+ |  
+ |  __weakref__
+ |      list of weak references to the object (if defined)
+ |  
+ |  contributors
+ |  
+ |  coordinates
+ |  
+ |  created_at
+ |      The time this status message was posted.
+ |  
+ |  created_at_in_seconds
+ |      The time this status message was posted, in seconds since the epoch
+ |  
+ |  current_user_retweet
+ |  
+ |  favorite_count
+ |      The number of favorites for this status message.
+ |  
+ |  favorited
+ |      The favorited state of this status message.
+ |  
+ |  geo
+ |  
+ |  id
+ |      The unique id of this status message.
+ |  
+ |  in_reply_to_screen_name
+ |  
+ |  in_reply_to_status_id
+ |  
+ |  in_reply_to_user_id
+ |  
+ |  location
+ |      The geolocation string of this status message
+ |  
+ |  now
+ |      The wallclock time for this status instance.
+ |  
+ |  place
+ |  
+ |  possibly_sensitive
+ |  
+ |  relative_created_at
+ |      Get a human readable string representing the posting time
+ |  
+ |  retweet_count
+ |  
+ |  retweeted
+ |  
+ |  retweeted_status
+ |  
+ |  scopes
+ |  
+ |  source
+ |  
+ |  text
+ |      The text of this status message
+ |  
+ |  truncated
+ |  
+ |  user
+ |      A twitter.User representing the entity posting this status message
+ |  
+ |  withheld_copyright
+ |  
+ |  withheld_in_countries
+ |  
+ |  withheld_scope
+
